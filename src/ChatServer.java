@@ -3,6 +3,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 public class ChatServer {
@@ -39,6 +40,22 @@ public class ChatServer {
 		
 		public void run() {
 			while(true) {
+				try {
+					String msgFromClient = din.readUTF();
+					StringTokenizer st = new StringTokenizer(msgFromClient);
+					String LoginName = st.nextToken();
+					String MsgType = st.nextToken();
+					
+					for(int i = 0; i < LoginNames.size(); i++) {
+						Socket pSocket = (Socket) ClientSockets.elementAt(i);
+						DataOutputStream pOut = new DataOutputStream(pSocket.getOutputStream());
+						pOut.writeUTF(LoginName + "has logged in.");
+						
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 		}
